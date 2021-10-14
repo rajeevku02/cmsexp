@@ -17,9 +17,9 @@ module.exports = (env) => {
         'Cross-Origin-Opener-Policy': 'same-origin',
         'Cross-Origin-Embedder-Policy': 'require-corp'
       },
-      https: true,
-      host: '0.0.0.0',
-      port: 8090,
+      https: false,
+      host: 'localhost',
+      port: 4000,
       historyApiFallback: {
         disableDotRule: true,
       },

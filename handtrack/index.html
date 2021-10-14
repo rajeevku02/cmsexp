@@ -6,6 +6,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="trackdemo.js"></script>
+
   <style>
         .input_video {
             display: none;
@@ -29,6 +31,7 @@
     const videoElement = document.getElementsByClassName('input_video')[0];
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
+    init_tracker(canvasElement);
     
     function onResults(results) {
       canvasCtx.save();
@@ -37,11 +40,14 @@
           results.image, 0, 0, canvasElement.width, canvasElement.height);
       if (results.multiHandLandmarks) {
         for (const landmarks of results.multiHandLandmarks) {
+          handleLandmarks(landmarks);
           drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
                          {color: '#00FF00', lineWidth: 5});
           drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+          drawLandmarks();
         }
       }
+      draw_tracker();
       canvasCtx.restore();
     }
     
@@ -49,7 +55,7 @@
       return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
     }});
     hands.setOptions({
-      maxNumHands: 2,
+      maxNumHands: 1,
       minDetectionConfidence: 0.5,
       minTrackingConfidence: 0.5
     });

@@ -41,9 +41,10 @@
                 if (this.readyState == 4) {
                     if (this.status == 200) {
                         var resp = xhttp.responseText;
+                        window.Module.libraryStore().initObjects(resp);
                     }
                 }
-            };    
+            };
             xhttp.open("GET", file);
             xhttp.withCredentials = true;
             xhttp.send();

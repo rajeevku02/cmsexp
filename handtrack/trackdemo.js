@@ -77,6 +77,7 @@
     class AppInput {
         constructor() {
             this.path = new PathPoints();
+            this.drawing = false;
         }
 
         click(x, y) {
@@ -85,12 +86,30 @@
         }
 
         drag(x, y, kind) {
+            var pt = {x: x, y:y};
             if (kind == 0) {
-                this.path.begin();
+                if (window.Module.willDrawAt(pt)) {
+                    this.drawing = true;
+                } else {
+                    this.drawing = false;
+                }
             }
-            this.path.addPoint({x:x, y:y});
-            if (kind == 2) {
-                this.path.finish();
+            if (this.drawing) {
+                if (kind == 0) {
+                    this.path.begin();
+                }
+                this.path.addPoint({x:x, y:y});
+                if (kind == 2) {
+                    this.path.finish();
+                }
+            } else {
+                var type = window.Module.InputType.START;
+                if (kind == 1) {
+                    type = window.Module.InputType.OTHER;
+                } else if (kind == 2) {
+                    type = window.Module.InputType.END;
+                }
+                window.Module.inputFilter().pan(pt, type);
             }
         }
 

@@ -44,16 +44,17 @@
       canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
       canvasCtx.drawImage(
           results.image, 0, 0, canvasElement.width, canvasElement.height);
+      window.frames[0].draw_tracker();
+
       if (results.multiHandLandmarks) {
         for (const landmarks of results.multiHandLandmarks) {
           window.frames[0].handleLandmarks(landmarks);
           drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
                          {color: '#00FF00', lineWidth: 5});
           drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
-          drawLandmarks();
         }
       }
-      window.frames[0].draw_tracker();
+      
       canvasCtx.restore();
     }
     

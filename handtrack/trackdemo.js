@@ -253,7 +253,7 @@
         return Math.sqrt(dx* dx, dy* dy);
     }
 
-    window.init_tracker = function(canvasElement) {
+    window.initLekh = function(canvasElement) {
         width = canvasElement.width;
         height = canvasElement.height;
         ctx = canvasElement.getContext('2d');
@@ -267,7 +267,7 @@
         handInput.handleLandmarks(p8, p4, p10);
     }
 
-    window.draw_tracker = function() {
+    window.drawLekh = function() {
         appInput.draw(ctx);
     }
 

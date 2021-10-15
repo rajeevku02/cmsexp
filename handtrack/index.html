@@ -36,7 +36,7 @@
     const iframe = document.getElementById('lekhframe');
     iframe.addEventListener('load', () => {
       console.log("Initializing lekh");
-      window.frames[0].init_tracker(canvasElement);
+      window.frames[0].initLekh(canvasElement);
     }, true);
 
     function onResults(results) {
@@ -44,7 +44,7 @@
       canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
       canvasCtx.drawImage(
           results.image, 0, 0, canvasElement.width, canvasElement.height);
-      window.frames[0].draw_tracker();
+      window.frames[0].drawLekh();
 
       if (results.multiHandLandmarks) {
         for (const landmarks of results.multiHandLandmarks) {

@@ -3,10 +3,33 @@
     const clickDist2 = 80;
     const minPointDist = 3;
     const dragMinDist = 12;
+    var lekhInitDone = false;
 
     var width = 0;
     var height = 0;
     var ctx = null;
+
+    window.wsmanager = {
+        send: () => { }
+    }
+    window.drawCanvas = () => { }
+    window.getLekhResource = () => { return ""; }
+    
+    window.generateUUID = function() {
+        var d = new Date().getTime();//Timestamp
+        var d2 = (window.performance && window.performance.now && (window.performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16;//random number between 0 and 16
+            if(d > 0){//Use timestamp until depleted
+                r = (d + r)%16 | 0;
+                d = Math.floor(d/16);
+            } else {//Use microseconds since page-load if supported
+                r = (d2 + r)%16 | 0;
+                d2 = Math.floor(d2/16);
+            }
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    }
 
     class AppInit {
         constructor() {
@@ -37,6 +60,7 @@
                 this.loadTemplate("/templates/v4/flowchart.json")
                 this.loadTemplate("/templates/v4/connection_arrows.json")
                 console.log("lekh init done");
+                lekhInitDone = true;
             }
             /*
             window.Module = {
@@ -57,6 +81,7 @@
 
         click(x, y) {
             console.log("click: ", x, y);
+            window.Module.inputFilter().tap({x: x, y:y}, 1);
         }
 
         drag(x, y, kind) {
@@ -73,6 +98,9 @@
         }
 
         draw(ctx) {
+            if (lekhInitDone) {
+                window.Module.drawCanvas(ctx);
+            }
             this.path.draw(ctx);
         }
     }
@@ -87,6 +115,16 @@
         }
 
         finish() {
+            var pts = this.points;
+            if (pts.length > 1) {
+                window.Module.inputFilter().pan(pts[0], window.Module.InputType.START);
+                for (var i = 1; i < pts.length - 1; i++) {
+                  window.Module.inputFilter().pan(pts[i], window.Module.InputType.OTHER);
+                }
+                var pt = pts[pts.length - 1];
+                window.Module.inputFilter().pan(pt, window.Module.InputType.END);
+              }
+              this.points = [];
         }
 
         addPoint(pt) {

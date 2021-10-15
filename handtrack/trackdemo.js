@@ -3,6 +3,8 @@
     const clickDist2 = 80;
     const minPointDist = 3;
     const dragMinDist = 12;
+    var canvas = null;
+
     var lekhInitDone = false;
 
     var width = 0;
@@ -33,15 +35,23 @@
 
     class AppInit {
         constructor() {
+            this.filesToLoad = ['basic.json', 'connection_arrows.json'];
+            this.loaded = 0;
         }
 
         loadTemplate(file) {
             var xhttp = new XMLHttpRequest();
+            var self = this;
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4) {
                     if (this.status == 200) {
                         var resp = xhttp.responseText;
                         window.Module.libraryStore().initObjects(resp);
+                        self.loaded++;
+                        if (self.loaded == self.filesToLoad.length) {
+                            console.log("lekh init done");
+                            lekhInitDone = true;
+                        }
                     }
                 }
             };
@@ -51,27 +61,11 @@
         }
 
         init(canvasElement) {
-            var docid = "dummy_docid"
-            var doInit = () => {
-                window.Module.init(canvasElement);
-                window.Module.startDoc(docid);
-                this.loadTemplate("/templates/v4/basic.json")
-                this.loadTemplate("/templates/v4/arrow.json")
-                this.loadTemplate("/templates/v4/callout.json")
-                this.loadTemplate("/templates/v4/flowchart.json")
-                this.loadTemplate("/templates/v4/connection_arrows.json")
-                console.log("lekh init done");
-                lekhInitDone = true;
+            window.Module.init(canvasElement);
+            window.Module.startDoc("dummy_docid");
+            for (let item of this.filesToLoad) {
+                this.loadTemplate('/templates/v4/' + item);
             }
-            /*
-            window.Module = {
-                onRuntimeInitialized: function () {
-                    doInit();
-                }
-            };*/
-            window.setTimeout(() => {
-                doInit();
-            }, 2000);
         }
     }
 
@@ -82,7 +76,7 @@
         }
 
         click(x, y) {
-            console.log("click: ", x, y);
+            //console.log("click: ", x, y);
             window.Module.inputFilter().tap({x: x, y:y}, 1);
         }
 
@@ -242,6 +236,12 @@
     const appInput = new AppInput();
     const handInput = new HandInput();
     const appInit = new AppInit();
+    
+    window.Module = {
+        onRuntimeInitialized: function () {
+            appInit.init(canvas);
+        }
+    };
 
     function point(lm) {
         return {x: lm.x * width, y: lm.y * height}
@@ -257,7 +257,7 @@
         width = canvasElement.width;
         height = canvasElement.height;
         ctx = canvasElement.getContext('2d');
-        appInit.init(canvasElement);
+        canvas = canvasElement;
     }
 
     window.handleLandmarks = function(landmarks) {

@@ -7,11 +7,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-  
-  <script src = "/assets/bean.min.js"></script>
-  <script src = "/assets/lekhapp.js"></script>
-  <script src="trackdemo.js"></script>
-
   <style>
         .input_video {
             display: none;
@@ -31,12 +26,19 @@
         <canvas class="output_canvas" width="1280px" height="720px"></canvas>
     </div>
 
+    <iframe src="/inner.html" title="A" id="lekhframe" width="0" height="0"></iframe> 
+
   <script type="module">
     const videoElement = document.getElementsByClassName('input_video')[0];
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
-    init_tracker(canvasElement);
-    
+
+    const iframe = document.getElementById('lekhframe');
+    iframe.addEventListener('load', () => {
+      console.log("Initializing lekh");
+      window.frames[0].init_lekh(canvasElement);  
+    }, true);
+
     function onResults(results) {
       canvasCtx.save();
       canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
@@ -44,14 +46,14 @@
           results.image, 0, 0, canvasElement.width, canvasElement.height);
       if (results.multiHandLandmarks) {
         for (const landmarks of results.multiHandLandmarks) {
-          handleLandmarks(landmarks);
+          window.frames[0].handleLandmarks(landmarks);
           drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
                          {color: '#00FF00', lineWidth: 5});
           drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
           drawLandmarks();
         }
       }
-      draw_tracker();
+      window.frames[0].draw_tracker();
       canvasCtx.restore();
     }
     

@@ -28,22 +28,7 @@
 
         init(canvasElement) {
             var docid = "dummy_docid"
-            
-            /*
-            window.Module = {
-                onRuntimeInitialized: function () {
-                    window.Module.init(canvasElement);
-                    window.Module.startDoc(docid);
-                    
-                    loadTemplate("/templates/v4/basic.json")
-                    loadTemplate("/templates/v4/arrow.json")
-                    loadTemplate("/templates/v4/callout.json")
-                    loadTemplate("/templates/v4/flowchart.json")
-                    loadTemplate("/templates/v4/connection_arrows.json")
-                }
-            };*/
-            
-            window.setTimeout(() => {
+            var doInit = () => {
                 window.Module.init(canvasElement);
                 window.Module.startDoc(docid);
                 this.loadTemplate("/templates/v4/basic.json")
@@ -51,6 +36,16 @@
                 this.loadTemplate("/templates/v4/callout.json")
                 this.loadTemplate("/templates/v4/flowchart.json")
                 this.loadTemplate("/templates/v4/connection_arrows.json")
+                console.log("lekh init done");
+            }
+            /*
+            window.Module = {
+                onRuntimeInitialized: function () {
+                    doInit();
+                }
+            };*/
+            window.setTimeout(() => {
+                doInit();
             }, 2000);
         }
     }

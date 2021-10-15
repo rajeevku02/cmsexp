@@ -8,6 +8,53 @@
     var height = 0;
     var ctx = null;
 
+    class AppInit {
+        constructor() {
+        }
+
+        loadTemplate(file) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        var resp = xhttp.responseText;
+                    }
+                }
+            };    
+            xhttp.open("GET", file);
+            xhttp.withCredentials = true;
+            xhttp.send();
+        }
+
+        init(canvasElement) {
+            var docid = "dummy_docid"
+            
+            /*
+            window.Module = {
+                onRuntimeInitialized: function () {
+                    window.Module.init(canvasElement);
+                    window.Module.startDoc(docid);
+                    
+                    loadTemplate("/templates/v4/basic.json")
+                    loadTemplate("/templates/v4/arrow.json")
+                    loadTemplate("/templates/v4/callout.json")
+                    loadTemplate("/templates/v4/flowchart.json")
+                    loadTemplate("/templates/v4/connection_arrows.json")
+                }
+            };*/
+            
+            window.setTimeout(() => {
+                window.Module.init(canvasElement);
+                window.Module.startDoc(docid);
+                this.loadTemplate("/templates/v4/basic.json")
+                this.loadTemplate("/templates/v4/arrow.json")
+                this.loadTemplate("/templates/v4/callout.json")
+                this.loadTemplate("/templates/v4/flowchart.json")
+                this.loadTemplate("/templates/v4/connection_arrows.json")
+            }, 2000);
+        }
+    }
+
     class AppInput {
         constructor() {
             this.path = new PathPoints();
@@ -141,6 +188,7 @@
 
     const appInput = new AppInput();
     const handInput = new HandInput();
+    const appInit = new AppInit();
 
     function point(lm) {
         return {x: lm.x * width, y: lm.y * height}
@@ -156,6 +204,7 @@
         width = canvasElement.width;
         height = canvasElement.height;
         ctx = canvasElement.getContext('2d');
+        appInit.init(canvasElement);
     }
 
     window.handleLandmarks = function(landmarks) {

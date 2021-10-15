@@ -3,6 +3,7 @@
     const clickDist2 = 80;
     const minPointDist = 3;
     const dragMinDist = 12;
+    const strokeWidth = 6;
     var canvas = null;
 
     var lekhInitDone = false;
@@ -50,6 +51,7 @@
                         self.loaded++;
                         if (self.loaded == self.filesToLoad.length) {
                             console.log("lekh init done");
+                            window.Module.inputReceiver().currentStyle().setStrokeWidth(strokeWidth);
                             lekhInitDone = true;
                         }
                     }
@@ -157,6 +159,7 @@
             if (len < 2) {
                 return;
             }
+            ctx.lineWidth = strokeWidth;
             ctx.beginPath();
             ctx.moveTo(this.points[0].x, this.points[0].y);
             for (let i = 1; i < len; i++) {

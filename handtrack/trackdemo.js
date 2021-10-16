@@ -52,6 +52,7 @@
                         if (self.loaded == self.filesToLoad.length) {
                             console.log("lekh init done");
                             window.Module.inputReceiver().currentStyle().setStrokeWidth(strokeWidth);
+                            window.Module.setStrokeColor(75, 250, 30, 255);
                             lekhInitDone = true;
                         }
                     }
@@ -160,6 +161,7 @@
                 return;
             }
             ctx.lineWidth = strokeWidth;
+            ctx.strokeStyle = "#00FF00";
             ctx.beginPath();
             ctx.moveTo(this.points[0].x, this.points[0].y);
             for (let i = 1; i < len; i++) {

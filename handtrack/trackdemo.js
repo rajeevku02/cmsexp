@@ -36,7 +36,7 @@
 
     class AppInit {
         constructor() {
-            this.filesToLoad = ['basic.json', 'connection_arrows.json'];
+            this.filesToLoad = ['basic.json', 'connection_arrows.json', 'arrow.json'];
             this.loaded = 0;
         }
 
@@ -249,13 +249,13 @@
     };
 
     function point(lm) {
-        return {x: lm.x * width, y: lm.y * height}
+        return {x: lm.x * width, y: lm.y * height, z: lm.z * width}
     }
 
     function dist(p1, p2) {
         var dx = p1.x - p2.x;
         var dy = p1.y - p2.y;
-        return Math.sqrt(dx* dx, dy* dy);
+        return Math.sqrt(dx* dx + dy* dy);
     }
 
     window.initLekh = function(canvasElement) {

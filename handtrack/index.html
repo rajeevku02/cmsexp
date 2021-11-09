@@ -2,11 +2,16 @@
 <html>
 <head>
   <meta charset="utf-8">
-  
+  <!--
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  -->
+  <script src="/mediapipe/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="/mediapipe/control_utils.js" crossorigin="anonymous"></script>
+  <script src="/mediapipe/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="/mediapipe/hands.js" crossorigin="anonymous"></script>
   <style>
         .input_video {
             display: none;
@@ -59,7 +64,8 @@
     }
     
     const hands = new Hands({locateFile: (file) => {
-      return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+      // return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+      return `/mediapipe/${file}`;
     }});
     hands.setOptions({
       maxNumHands: 1,

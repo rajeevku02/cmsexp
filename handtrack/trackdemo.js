@@ -218,7 +218,7 @@
         }
 
         checkDown(p8, p4, p10) {
-            var d = dist(p4, p10);
+            var d = dist2(p4, p10);
             if (this.dragging) {
                 if (d > clickDist2) {
                     this.up(p8.x, p8.y);
@@ -232,9 +232,29 @@
             }
         }
 
+        checkDown2(p8, p4) {
+            var d = dist2(p4, p8);
+            if (this.dragging) {
+                if (d > clickDist2) {
+                    this.up(p4.x, p4.y);
+                    this.dragging = false;
+                }
+            } else {
+                if (d < clickDist) {
+                    this.down(p4.x, p4.y);
+                    this.dragging = true;
+                }
+            }
+        }
+
         handleLandmarks(p8, p4, p10) {
             this.checkDown(p8, p4, p10);
             this.move(p8.x, p8.y);
+        }
+
+        handleLandmarks2(p8, p4) {
+            this.checkDown2(p8, p4);
+            this.move(p4.x, p4.y);
         }
     }
 
@@ -258,6 +278,13 @@
         return Math.sqrt(dx* dx + dy* dy);
     }
 
+    function dist2(p1, p2) {
+        var dx = p1.x - p2.x;
+        var dy = p1.y - p2.y;
+        var dz = p1.z - p2.z;
+        return Math.sqrt(dx* dx + dy* dy + dz * dz);
+    }
+
     window.initLekh = function(canvasElement) {
         width = canvasElement.width;
         height = canvasElement.height;
@@ -270,6 +297,7 @@
         var p4 = point(landmarks[4]);
         var p10 = point(landmarks[10]);
         handInput.handleLandmarks(p8, p4, p10);
+        //handInput.handleLandmarks2(p8, p4);
     }
 
     window.drawLekh = function() {

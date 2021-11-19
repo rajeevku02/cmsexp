@@ -75,8 +75,8 @@ with mp_hands.Hands(
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     if results.multi_hand_landmarks:
       for hand_landmarks in results.multi_hand_landmarks:
-        #handler.handle(hand_landmarks.landmark)
-        collector.handle(hand_landmarks.landmark)
+        handler.handle(hand_landmarks.landmark)
+        #collector.handle(hand_landmarks.landmark)
         mp_drawing.draw_landmarks(
             image,
             hand_landmarks,
@@ -89,6 +89,7 @@ with mp_hands.Hands(
     if key & 0xFF == 27:
       break
     if key & 0xFF == 120:
-        collector.toggle()
+        #collector.toggle()
+        handler.toggle()
 cap.release()
 

@@ -8,12 +8,13 @@ class GestureRecognizer:
     def __init__(self):
         self.clicked = False
         self.drag_gesture = Drag1Gesture()
+        self.drag2_gesture = Drag2Gesture()
         self.noop_gesture = Gesture('noop')
 
     def get(self, landmarks):
-        self.check_click(landmarks[4], landmarks[8])
+        self.check_click(landmarks[4], landmarks[10])
         if self.clicked:
-            return self.drag_gesture 
+            return self.drag2_gesture 
         return self.noop_gesture
     
     def check_click(self, p1, p2):
@@ -22,7 +23,7 @@ class GestureRecognizer:
         if self.clicked:
             if d > DIST2:
                 self.clicked = False
-                print("UP ", d)
+                #print("UP ", d)
         elif d < DIST1:
             self.clicked = True
-            print("DOWN ", d)
+            #print("DOWN ", d)

@@ -30,6 +30,10 @@ class Drag2Gesture(Gesture):
     def move(self, landmarks):
         self.dragger.track(landmarks[8], landmarks[0])
 
+    def done(self):
+        add_points(self.dragger.points)
+        self.dragger.points = []
+
 class ThumGesture(Gesture):
     def __init__(self):
         super().__init__('thumb')

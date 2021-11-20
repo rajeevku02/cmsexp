@@ -3,6 +3,8 @@ import math
 CANVAS_WIDTH = 1280
 CANVAS_HEIGHT = 720
 
+VERBOSE = False
+
 class Point:
     def __init__(self, x, y, z):
         self.x = x
@@ -22,3 +24,7 @@ def dist2(p1, p2):
 
 def pt(p):
     return Point(p.x * CANVAS_WIDTH, p.y*CANVAS_HEIGHT, p.z*CANVAS_WIDTH)
+
+def log(msg):
+    if VERBOSE:
+        print(msg)

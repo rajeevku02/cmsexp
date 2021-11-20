@@ -10,6 +10,24 @@ mp_hands = mp.solutions.hands
 handler = LandmarkHandler()
 collector = DataCollector()
 
+def call_handler(results):
+  for mh in results.multi_handedness:
+    idx = mh.classification[0].index
+    label = mh.classification[0].label
+    if len(results.multi_hand_landmarks) == 0:
+      return
+    elif len(results.multi_hand_landmarks) == 1:
+      idx = 0
+    handler.handle(results.multi_hand_landmarks[idx].landmark, label)
+
+def call_collector(results):
+  pass
+
+def handle_x():
+  #collector.toggle()
+  #handler.toggle()
+  pass
+
 # For static images:
 IMAGE_FILES = []
 with mp_hands.Hands(
@@ -74,9 +92,9 @@ with mp_hands.Hands(
     image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     if results.multi_hand_landmarks:
+      call_handler(results)
+      call_collector(results)
       for hand_landmarks in results.multi_hand_landmarks:
-        handler.handle(hand_landmarks.landmark)
-        #collector.handle(hand_landmarks.landmark)
         mp_drawing.draw_landmarks(
             image,
             hand_landmarks,
@@ -89,7 +107,6 @@ with mp_hands.Hands(
     if key & 0xFF == 27:
       break
     if key & 0xFF == 120:
-        #collector.toggle()
-        handler.toggle()
+        handle_x()
 cap.release()
 

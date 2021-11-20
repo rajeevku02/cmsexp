@@ -1,7 +1,21 @@
-import time
-import math
+from GestureRecognizer import GestureRecognizer
+from Util import pt
 
-# (720, 1280, 3)
+class LandmarkHandler:
+    def __init__(self):
+        self.gesture_recognizer = GestureRecognizer()
+        self.gesture = None
+
+    def handle(self, landmarks, hand):
+        pts = [pt(p) for p in landmarks]
+        gesture = self.gesture_recognizer.get(pts)
+        if self.gesture is not None:
+            if gesture.id != self.gesture.id:
+                self.gesture.done()
+        self.gesture = gesture
+        self.gesture.move(pts)
+
+'''
 MIN_DIST = 7.0
 
 MOVE_DIST = 10.0
@@ -15,7 +29,18 @@ CACHE_SZ = 4
 DIST1 = 55
 DIST2 = 90
 
-class LandmarkHandler:
+    def handle(self, landmarks, hand):
+        #self.check_move(pt(landmarks[0]))
+        #self.check_dist(landmarks)
+        # self.check(pt(landmarks[4]), pt(landmarks[8]))
+
+    def toggle(self):
+        self.verbose = not self.verbose
+
+    def log(self, msg):
+        if self.verbose:
+            print(msg)
+
     def __init__(self):
         self.lastp0 = None
         self.moving = False
@@ -24,18 +49,8 @@ class LandmarkHandler:
         self.pts2 = []
         self.clicked = False
         self.verbose = False
-
-    def log(self, msg):
-        if self.verbose:
-            print(msg)
-
-    def toggle(self):
-        self.verbose = not self.verbose
-
-    def handle(self, landmarks):
-        self.check_move(pt(landmarks[0]))
-        self.check_dist(landmarks)
-        # self.check(pt(landmarks[4]), pt(landmarks[8]))
+        self.gesture_recognizer = GestureRecognizer()
+        self.gesture = None
 
     def check_dist(self, landmarks):
         #self.check_click(pt(landmarks[4]), pt(landmarks[8]))
@@ -106,4 +121,4 @@ class LandmarkHandler:
             del self.pts2[0]
         print("d dx:", (p1.x - self.pts1[-2].x) - (p2.x - self.pts2[-2].x))
         print("d dy:", (p1.y - self.pts1[-2].y) - (p2.y - self.pts2[-2].y))
-        
+'''        

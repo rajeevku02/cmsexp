@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 from LandmarkHandler import LandmarkHandler
 from DataCollector import DataCollector
+from DrawShapes import clear
 
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
@@ -26,7 +27,7 @@ def call_collector(results):
 def handle_x():
   #collector.toggle()
   #handler.toggle()
-  pass
+  clear()
 
 def draw_shapes(image):
   handler.draw(image)

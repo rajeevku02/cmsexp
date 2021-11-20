@@ -32,6 +32,16 @@ class Dragger:
             self.last = pt
             self.last_ref = ptref
 
+    def valid_move(self, pt, ptref):
+        dx1 = ptref.x - self.last_ref.x
+        dx2 = pt.x - self.last.x
+        dy1 = ptref.y - self.last_ref.y
+        dy2 = pt.y - self.last.y
+
+        valid_x = (dx1 <= 0 and dx2 <= 0) or (dx1 >= 0 and dx2 >= 0)
+        valid_y = (dy1 <= 0 and dy2 <= 0) or (dy1 >= 0 and dy2 >= 0)
+        return valid_x and valid_y
+
     def handle_move(self, pt, ptref):
         d = dist(ptref, self.last_ref)
         if d > MOVE_DIST_SMALL_REF:

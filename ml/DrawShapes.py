@@ -19,4 +19,5 @@ def add_points(pts):
     points.append(pts)
 
 def clear():
+    global points
     points = []

@@ -10,8 +10,11 @@ mp_hands = mp.solutions.hands
 
 handler = LandmarkHandler()
 collector = DataCollector()
+use_collector = False
 
 def call_handler(results):
+  if use_collector:
+    return
   for mh in results.multi_handedness:
     idx = mh.classification[0].index
     label = mh.classification[0].label
@@ -22,12 +25,16 @@ def call_handler(results):
     handler.handle(results.multi_hand_landmarks[idx].landmark, label)
 
 def call_collector(results):
-  pass
+  if not use_collector:
+    return
+  for mhl in results.multi_hand_landmarks:
+    collector.handle(mhl.landmark)
 
 def handle_x():
-  #collector.toggle()
-  #handler.toggle()
-  clear()
+  if use_collector:
+    collector.toggle()
+  else:
+    clear()
 
 def draw_shapes(image):
   handler.draw(image)

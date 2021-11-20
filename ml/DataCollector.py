@@ -2,7 +2,7 @@ import math
 import time
 import json
 
-DATA_PATH = 'data/nomove'
+DATA_PATH = 'data/open'
 
 class DataCollector:
     def __init__(self):

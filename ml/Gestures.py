@@ -1,4 +1,5 @@
 from Dragger import Dragger
+from DrawShapes import add_points
 
 class Gesture:
     def __init__(self, id):
@@ -16,11 +17,11 @@ class Drag1Gesture(Gesture):
         super().__init__('drag1')
     
     def move(self, landmarks):
-        print("move")
         self.dragger.track(landmarks[4], landmarks[0])
 
     def done(self):
-        print("done")
+        add_points(self.dragger.points)
+        self.dragger.points = []
 
 class Drag2Gesture(Gesture):
     def __init__(self):

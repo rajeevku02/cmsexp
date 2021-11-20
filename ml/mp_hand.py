@@ -28,6 +28,9 @@ def handle_x():
   #handler.toggle()
   pass
 
+def draw_shapes(image):
+  handler.draw(image)
+
 # For static images:
 IMAGE_FILES = []
 with mp_hands.Hands(
@@ -101,6 +104,7 @@ with mp_hands.Hands(
             mp_hands.HAND_CONNECTIONS,
             mp_drawing_styles.get_default_hand_landmarks_style(),
             mp_drawing_styles.get_default_hand_connections_style())
+    draw_shapes(image)
     # Flip the image horizontally for a selfie-view display.
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
     key = cv2.waitKey(5)

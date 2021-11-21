@@ -15,6 +15,7 @@ def make_data(items):
         for v in item['x']:
             arr.append(v['x'])
             arr.append(v['y'])
+            arr.append(v['z'])
         x.append(arr)
         y.append(item['y'])
     return (np.array(x), np.array(y))

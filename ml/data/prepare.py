@@ -38,6 +38,7 @@ def main():
     load_data()
     random.shuffle(data)
     random.shuffle(data)
+    print("Len = ", len(data))
     with open('gestures.json', 'w') as fd:
         fd.write(json.dumps(data, indent=2))
 main()

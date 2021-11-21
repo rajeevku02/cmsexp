@@ -19,7 +19,7 @@ class LandmarkHandler:
         if hand.lower() == "right":
             return
         pts = [pt(p) for p in landmarks]
-        gesture = self.gesture_recognizer.get(pts)
+        gesture = self.gesture_recognizer.get(landmarks)
         if self.gesture is not None:
             if gesture.id != self.gesture.id:
                 self.gesture.done()

@@ -1,8 +1,20 @@
+import numpy as np
+from tensorflow import keras
 from Gestures import *
 from Util import dist, log
 
 DIST1 = 55
 DIST2 = 90
+
+gestures_names = {
+    0: 'drag1',
+    1: 'drag2',
+    2: 'thumb',
+    3: 'pinch',
+    4: 'thumb_index',
+    5: 'open',
+    6: 'other'
+}
 
 class GestureRecognizer:
     def __init__(self):
@@ -10,11 +22,28 @@ class GestureRecognizer:
         self.drag_gesture = Drag1Gesture()
         self.drag2_gesture = Drag2Gesture()
         self.noop_gesture = Gesture('noop')
+        self.model = keras.models.load_model('models/trained_model')
+
+    def predict(self, landmarks):
+        arr = []
+        for item in landmarks:
+            arr.append(item.x)
+            arr.append(item.y)
+            arr.append(item.z)
+        #breakpoint()
+        out = self.model.predict(np.array(arr).reshape([1, -1]))
+        mx = np.argmax(out, axis=-1)
+        idx = int(mx[0]) 
+        print(gestures_names[idx])
+        return idx
 
     def get(self, landmarks):
-        self.check_click(landmarks[4], landmarks[10])
-        if self.clicked:
-            return self.drag2_gesture 
+        idx = self.predict(landmarks)
+        if idx == 1:
+            return self.drag2_gesture
+        #self.check_click(landmarks[4], landmarks[10])
+        #if self.clicked:
+        #    return self.drag2_gesture 
         return self.noop_gesture
     
     def check_click(self, p1, p2):

@@ -1,7 +1,9 @@
 import numpy as np
 from tensorflow import keras
 from Gestures import *
-from Util import dist, log, pt
+
+from geometry import dist
+from Util import log, pt
 
 gestures_names = {
     0: 'drag1',

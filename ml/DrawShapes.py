@@ -1,5 +1,5 @@
 import cv2
-from Util import dist
+from geometry import dist
 
 points = []
 DEL_DIST = 4

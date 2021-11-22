@@ -1,4 +1,4 @@
-from Util import dist, dist2
+from geometry import dist, dist2
 
 DELTA = 5
 REF_DELTA = 5

@@ -71,7 +71,7 @@ class GestureRecognizer:
         return None
 
     def check_drag2(self, idx, pts):
-        if not (idx == 1 or idx == 2 or idx == 3):
+        if not (idx == 1 or idx == 2 or idx == 4):
             deactivate_drag2()
             return None
 

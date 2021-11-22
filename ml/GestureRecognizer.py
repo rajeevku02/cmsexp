@@ -5,7 +5,7 @@ from Gestures import *
 from geometry import dist
 from Util import log, pt
 from drag_2_gesture import check_drag_2, deactivate_drag2
-from drag_1_gesture import deactivate_drag1
+from drag_1_gesture import check_drag_1, deactivate_drag1
 
 gestures_names = {
     0: 'drag1',
@@ -21,7 +21,7 @@ class GestureRecognizer:
     def __init__(self):
         self.model = keras.models.load_model('models/trained_model')
 
-        self.drag_gesture = Drag1Gesture()
+        self.drag1_gesture = Drag1Gesture()
         self.drag2_gesture = Drag2Gesture()
         self.thumb_gesture = ThumGesture()
         self.pinch_gesture = PinchGesture()
@@ -68,6 +68,11 @@ class GestureRecognizer:
         return None
 
     def check_drag1(self, idx, pts):
+        if not (idx == 0 or idx == 4 or idx == 5):
+            deactivate_drag1()
+            return None
+        if check_drag_1(pts):
+            return self.drag1_gesture
         return None
 
     def check_drag2(self, idx, pts):

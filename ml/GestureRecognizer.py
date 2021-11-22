@@ -33,7 +33,6 @@ class GestureRecognizer:
             arr.append(item.x)
             arr.append(item.y)
             arr.append(item.z)
-        #breakpoint()
         out = self.model.predict(np.array(arr).reshape([1, -1]))
         mx = np.argmax(out, axis=-1)
         idx = int(mx[0]) 
@@ -41,7 +40,6 @@ class GestureRecognizer:
         return idx
 
     def get(self, landmarks):
-        #self.info(landmarks)
         idx = self.predict(landmarks)
         pts = [pt(p) for p in landmarks]
         ges = self.check_drag2(idx, pts)
@@ -80,16 +78,3 @@ class GestureRecognizer:
         if check_drag_2(pts):
             return self.drag2_gesture
         return None
-
-    def info(self, landmarks):
-        pts = [pt(p) for p in landmarks]
-        d1 = dist(pts[4], pts[10])
-        d2 = dist(pts[10], pts[11])
-        if d1 != 0:
-            val = d2 / d1
-            if val > 1.5:
-                print(val, " YES")
-            else:
-                 print(val, "NO")
-            #print (val)
-        #print("z ", pts[9].z, ' , ', pts[10].z)

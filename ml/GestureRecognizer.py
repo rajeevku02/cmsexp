@@ -4,6 +4,8 @@ from Gestures import *
 
 from geometry import dist
 from Util import log, pt
+from drag_2_gesture import check_drag_2, deactivate_drag2
+from drag_1_gesture import deactivate_drag1
 
 gestures_names = {
     0: 'drag1',
@@ -25,9 +27,6 @@ class GestureRecognizer:
         self.pinch_gesture = PinchGesture()
         self.noop_gesture = Gesture('noop')
         
-        self.drag1_active = False
-        self.drag2_active = False
-        
     def predict(self, landmarks):
         arr = []
         for item in landmarks:
@@ -47,7 +46,7 @@ class GestureRecognizer:
         pts = [pt(p) for p in landmarks]
         ges = self.check_drag2(idx, pts)
         if ges is not None:
-            self.drag1_active = False
+            deactivate_drag1()
             return ges
         ges = self.check_drag1(idx, pts)
         if ges is not None:
@@ -75,27 +74,12 @@ class GestureRecognizer:
 
     def check_drag2(self, idx, pts):
         if not (idx == 1 or idx == 2 or idx == 3):
-            self.drag2_active = False
+            deactivate_drag2()
             return None
-        d1 = dist(pts[4], pts[10])
-        d2 = dist(pts[10], pts[11])
-        THRESHOLD_1 = 1.5
-        THRESHOLD_2 = 1.4
-        factor = 100.0
-        if d1 != 0:
-            factor = d2 / d1
-        if self.drag2_active:
-            if factor < THRESHOLD_2:
-                self.drag2_active = False
-                return None
-            else:
-                return self.drag2_gesture
-        else:
-            if factor > THRESHOLD_1:
-                self.drag2_active = True
-                return self.drag2_gesture
-            else:
-                return None
+
+        if check_drag_2(pts):
+            return self.drag2_gesture
+        return None
 
     def info(self, landmarks):
         pts = [pt(p) for p in landmarks]

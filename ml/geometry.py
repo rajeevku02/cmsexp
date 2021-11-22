@@ -1,6 +1,6 @@
 import math
 
-RANGE_DELTA = 0.4
+RANGE_DELTA = 0.5
 
 def dist(p1, p2):
     dx = p2.x - p1.x
@@ -35,7 +35,7 @@ class LineEq:
         Dy = self.A *(-eq2.C) - eq2.A *(-self.C)
         if D == 0:
             return False, None
-        return True, Point(Dx / D, Dy / D)
+        return True, Point(Dx / D, Dy / D, 0)
 
     def angle_with_hz(self):
         return math.atan2(self.A, -self.B)
@@ -43,10 +43,10 @@ class LineEq:
     def crosses(self, p1, p2):
         d1 = self.A * p1.x + self.B * p1.y + self.C
         d2 = self.A * p2.x + self.B * p2.y + self.C
-        return d1 * d2 >= 0
+        return d1 * d2 <= 0
 
     def perp(self, p):
-        eq = LineEq(Point(0, 0), Point(1, 1))
+        eq = LineEq(Point(0, 0, 0), Point(1, 1, 1))
         eq.A = -self.B
         eq.B = self.A
         eq.C = -eq.A * p.x - eq.B * p.y
@@ -68,7 +68,7 @@ class LineSegment:
         d2 = dist(pt, self.p2)
         len = self.length()
         diff = abs(len - (d1 + d2))
-        diff < RANGE_DELTA
+        return diff < RANGE_DELTA
 
     def dist_from(self, point):
         eq = LineEq(self.p1, self.p2)
@@ -85,12 +85,12 @@ class LineSegment:
         eq2 = LineEq(seg.p1, seg.p2)
         got, at = eq1.solve(eq2)    
         if not got or not self.contains(at) or not seg.contains(at):
-            return False, Point(0, 0)
+            return False, Point(0, 0, 0)
         return True, at
 
     def intersect_eq(self, eq):
         eq1 = LineEq(self.p1, self.p2)
-        got, at = eq1.solve(eq)    
+        got, at = eq1.solve(eq)
         if not got or not self.contains(at):
-            return False, Point(0, 0)
+            return False, Point(0, 0, 0)
         return True, at

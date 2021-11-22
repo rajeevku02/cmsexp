@@ -36,7 +36,7 @@ class GestureRecognizer:
         out = self.model.predict(np.array(arr).reshape([1, -1]))
         mx = np.argmax(out, axis=-1)
         idx = int(mx[0]) 
-        print(gestures_names[idx])
+        #print(gestures_names[idx])
         return idx
 
     def get(self, landmarks):

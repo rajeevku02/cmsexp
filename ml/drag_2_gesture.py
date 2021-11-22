@@ -36,10 +36,10 @@ def check_drag_2(pts):
     bent = bent_forward(pts)
     opp = thumb_middle_opposite(pts)
     crosses = thumb_corsses(pts)
-    print("bent: ", bent, ' opp:', opp, ' crosses:', crosses)
+    #print("bent: ", bent, ' opp:', opp, ' crosses:', crosses)
     if not bent and opp and crosses:
         if check_for_cross(pts):
-            print("Cross checked")
+            #print("Cross checked")
             active = True
             return active
 

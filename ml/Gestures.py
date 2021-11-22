@@ -1,5 +1,5 @@
 from Dragger import Dragger
-from DrawShapes import add_points
+from DrawShapes import add_points, del_shapes, move_shapes
 
 class Gesture:
     def __init__(self, id):
@@ -37,14 +37,28 @@ class Drag2Gesture(Gesture):
 class ThumGesture(Gesture):
     def __init__(self):
         super().__init__('thumb')
+        self.points = []
 
     def move(self, landmarks):
-        self.dragger.track(landmarks[4], landmarks[0])
+        self.points.append(landmarks[4])
+        if len(self.points) > 1:
+            del_shapes(self.points)
+            self.points = []
+
+    def done(self):
+        self.points = []
 
 class PinchGesture(Gesture):
     def __init__(self):
         super().__init__('pinch')
+        self.points = []
 
     def move(self, landmarks):
-        self.dragger.track(landmarks[0], landmarks[0])
+        self.points.append(landmarks[0])
+        if len(self.points) > 1:
+            move_shapes(self.points)
+            del self.points[:-1]
+
+    def done(self):
+        self.points = []
 

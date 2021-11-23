@@ -44,6 +44,11 @@ def move_shapes(pts):
             p.x += dx
             p.y += dy
 
+def undo():
+    global points
+    if len(points) > 0:
+        del points[-1]
+
 def clear():
     global points
     points = []

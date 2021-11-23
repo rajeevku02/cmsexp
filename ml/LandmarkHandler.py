@@ -2,6 +2,7 @@ import time
 from GestureRecognizer import GestureRecognizer
 from Util import pt
 from DrawShapes import draw_shapes
+from transient import handle_gesture_transient
 
 PENDING_THRESHOLD = 0.2
 
@@ -44,5 +45,6 @@ class LandmarkHandler:
         pts = [pt(p) for p in landmarks]
         gesture = self.gesture_recognizer.get(landmarks)
         self.handle_last(gesture)
+        handle_gesture_transient(gesture)
         self.gesture = gesture
         self.gesture.move(pts)

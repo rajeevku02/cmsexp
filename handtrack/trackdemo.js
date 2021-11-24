@@ -12,6 +12,9 @@
     var height = 0;
     var ctx = null;
 
+    var model = null;
+    var loadingModel = false;
+
     window.wsmanager = {
         send: () => { }
     }
@@ -285,6 +288,40 @@
         return Math.sqrt(dx* dx + dy* dy + dz * dz);
     }
 
+    function loadModel() {
+        tf.loadGraphModel('model/trained_model_js/model.json').then((m) =>{
+            model = m
+        }).catch((e) => {
+            console.log(e)
+        });
+    }
+
+    function predict(landmarks) {
+        if (model == null) {
+            return;
+        }
+
+        var arr = [];
+        for (let item of landmarks) {
+            arr.push(item.x);
+            arr.push(item.y);
+            arr.push(item.z);
+        }
+        var inp = tf.tensor2d([arr]);
+        var out = model.predict(inp);
+        var idx = out.argMax(-1).arraySync()[0]
+        var names = {
+            0: 'drag1',
+            1: 'drag2',
+            2: 'thumb',
+            3: 'pinch',
+            4: 'thumb_index',
+            5: 'open',
+            6: 'other'
+        }
+        console.log(names[idx])
+    }
+
     window.initLekh = function(canvasElement) {
         width = canvasElement.width;
         height = canvasElement.height;
@@ -293,6 +330,12 @@
     }
 
     window.handleLandmarks = function(landmarks) {
+        /*
+        if (model == null && !loadingModel) {
+            loadingModel = true;
+            loadModel();
+        }
+        predict(landmarks);*/
         var p8 = point(landmarks[8]);
         var p4 = point(landmarks[4]);
         var p10 = point(landmarks[10]);

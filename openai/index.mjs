@@ -7,7 +7,7 @@ const completion = await openai.chat.completions.create({
         { role: "system", content: "You are a helpful assistant." },
         {
             role: "user",
-            content: "Write a haiku about recursion in programming.",
+            content: "What is function calling convention in c programming language",
         },
     ],
 });

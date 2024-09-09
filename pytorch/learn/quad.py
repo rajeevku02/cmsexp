@@ -65,6 +65,7 @@ class Runner:
         optimizer = torch.optim.SGD(self.model.parameters(), lr=0.001)
         lossf = nn.L1Loss()
 
+        costs = []
         for ei in range(0, EPOCH):
             for ds, l in dl:
                 res = self.model(ds)
@@ -75,6 +76,9 @@ class Runner:
                 optimizer.step()
             print('epoch ', ei)
             print(loss.item())
+            costs.append(loss.item())
+        #plt.plot(costs)
+        #plt.show()
         self.test()
 
 Runner().run()

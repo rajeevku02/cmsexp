@@ -10,10 +10,10 @@ class Net(nn.Module):
     def __init__(self):
         super().__init__()
         self.conv = nn.Sequential(
-            nn.Conv2d(3, 6, 5),
+            nn.Conv2d(3, 64, 5),
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
-            nn.Conv2d(6, 16, 5),
+            nn.Conv2d(64, 16, 5),
             nn.ReLU(),
             nn.MaxPool2d(2, 2)
         )
@@ -80,7 +80,7 @@ class Runner:
         optim = torch.optim.SGD(self.model.parameters(), lr=0.001, momentum=0.9)
         print('Start training')
         self.model.train()
-        for epoch in range(2):
+        for epoch in range(4):
             running_loss = 0.0
             for i, data in enumerate(self.trainloader, 0):
                 inputs, label = data
@@ -90,8 +90,8 @@ class Runner:
                 loss.backward()
                 optim.step()
                 running_loss += loss.item()
-                if i % 2000 == 0:
-                    print(f'[{epoch}, {i}] loss: {running_loss / 2000:.3f}')
+                if i % 2000 == 1999:
+                    print(f'[{epoch}, {i+1}] loss: {running_loss / 2000}')
                     running_loss = 0.0
         print('Training done')
 

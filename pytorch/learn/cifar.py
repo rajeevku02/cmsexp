@@ -10,15 +10,15 @@ class Net(nn.Module):
     def __init__(self):
         super().__init__()
         self.conv = nn.Sequential(
-            nn.Conv2d(3, 64, 5),
+            nn.Conv2d(3, 128, 5),
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
-            nn.Conv2d(64, 16, 5),
+            nn.Conv2d(128, 64, 5),
             nn.ReLU(),
             nn.MaxPool2d(2, 2)
         )
         self.fc = nn.Sequential(
-            nn.Linear(16 * 5 * 5, 120),
+            nn.Linear(64 * 5 * 5, 120),
             nn.ReLU(),
             nn.Linear(120, 84),
             nn.ReLU(),

@@ -60,20 +60,19 @@ class Runner:
 
 
     def test(self):
+        print('Testing')
         correct = 0
         total = 0
         self.model.eval()
         with torch.no_grad():
             for data in self.testloader:
                 images, labels = data
-                # calculate outputs by running images through the network
                 outputs = self.model(images)
-                # the class with the highest energy is what we choose as prediction
-                _, predicted = torch.max(outputs.data, 1)
+                _, predicted = torch.max(outputs, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
 
-        print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
+        print(f'Accuracy of the network on the {total} test images: {100 * correct // total} %')
 
 
     def train(self):

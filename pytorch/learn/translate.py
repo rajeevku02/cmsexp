@@ -136,6 +136,7 @@ class EncoderRNN(nn.Module):
         output, hidden = self.gru(embedded)
         return output, hidden
 
+'''
 class DecoderRNN(nn.Module):
     def __init__(self, hidden_size, output_size):
         super(DecoderRNN, self).__init__()
@@ -171,6 +172,7 @@ class DecoderRNN(nn.Module):
         output, hidden = self.gru(output, hidden)
         output = self.out(output)
         return output, hidden
+'''
 
 class BahdanauAttention(nn.Module):
     def __init__(self, hidden_size):

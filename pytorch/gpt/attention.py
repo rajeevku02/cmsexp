@@ -4,8 +4,15 @@ import torch.nn.functional as F
 import math
 
 class MultiheadAttention(nn.Module):
-    def __init__(self, sequence_len, input_dim, embed_dim, n_heads, dropout=0, bias=False):
+    def __init__(self, config):
         super().__init__()
+        sequence_len = config['sequence_len']
+        input_dim = config['input_dim']
+        embed_dim = config['embed_dim']
+        n_heads = config['n_heads']
+        #dropout = config['dropout']
+        bias = config['ma_bias']
+
         assert embed_dim % n_heads == 0, 'embed_dim must be multiple of n_heads'
         self.embed_dim = embed_dim
         self.n_heads = n_heads
@@ -14,7 +21,7 @@ class MultiheadAttention(nn.Module):
         self.qkv_proj = nn.Linear(input_dim, 3 * embed_dim, bias=bias)
         self.o_proj = nn.Linear(embed_dim, embed_dim)
 
-        self.dropout = nn.Dropout(dropout)
+        #self.dropout = nn.Dropout(dropout)
 
         self.register_buffer('mask', torch.tril(torch.ones(sequence_len, sequence_len)))
 

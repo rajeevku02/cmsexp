@@ -17,15 +17,13 @@ class Feedforward(nn.Module):
 class Block(nn.Module):
     def __init__(self, config):
         super().__init__()
-        embed_dim = config.embed_dim
-        dropout = config.dropout
 
-        self.ln1 = nn.LayerNorm(embed_dim)
+        self.ln1 = nn.LayerNorm(config.embed_dim)
         self.ma = MultiheadAttention(config)
-        self.dropout = nn.Dropout(dropout)
-        self.ln2 = nn.LayerNorm(embed_dim)
-        self.fc = Feedforward(embed_dim)
-        self.dropout2 = nn.Dropout(dropout)
+        self.dropout = nn.Dropout(config.dropout)
+        self.ln2 = nn.LayerNorm(config.embed_dim)
+        self.fc = Feedforward(config.embed_dim)
+        self.dropout2 = nn.Dropout(config.dropout)
 
     def forward(self, x):
         x = x + self.dropout(self.ma(self.ln1(x)))
@@ -36,16 +34,12 @@ class GPT(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.config = config
-        n_vocab = config.n_vocab
-        embed_dim = config.embed_dim
-        n_layers = config.n_layers
-        sequence_len = config.sequence_len
-        self.embeding = nn.Embedding(n_vocab, embed_dim)
-        self.pos_embeding = nn.Embedding(sequence_len, embed_dim)
-        self.ln = nn.LayerNorm(embed_dim)
+        self.embeding = nn.Embedding(config.n_vocab, config.embed_dim)
+        self.pos_embeding = nn.Embedding(config.max_sequence_len, config.embed_dim)
+        self.ln = nn.LayerNorm(config.embed_dim)
         self.dropout = nn.Dropout(config.dropout)
-        self.transformers = nn.Sequential(*[Block(config) for _ in range(0, n_layers)])
-        self.final = nn.Linear(embed_dim, n_vocab)
+        self.transformers = nn.Sequential(*[Block(config) for _ in range(0, config.n_layers)])
+        self.final = nn.Linear(config.embed_dim, config.n_vocab)
 
     def forward(self, x):
         B, T = x.shape

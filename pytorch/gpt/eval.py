@@ -4,7 +4,7 @@ def generate(model, start_text, max_words):
     tokens = torch.tensor([model.config.tokenizer.encode(start_text)])
     count = 0
     while count < max_words:
-        tks = tokens[:, -model.config.sequence_len:]
+        tks = tokens[:, -model.config.max_sequence_len:]
         output = model(tks)
         newt = torch.argmax(output[:, -1, :], dim=-1, keepdim=True)
         tokens = torch.cat((tokens, newt), dim=-1)

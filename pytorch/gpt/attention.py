@@ -6,22 +6,19 @@ import math
 class MultiheadAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
-        #sequence_len = config.sequence_len
         embed_dim = config.embed_dim
         n_heads = config.n_heads
-        #dropout = config['dropout']
-        bias = config.ma_bias
 
         assert embed_dim % n_heads == 0, 'embed_dim must be multiple of n_heads'
         self.embed_dim = embed_dim
         self.n_heads = n_heads
         self.head_dim = embed_dim // n_heads
 
-        self.qkv_proj = nn.Linear(embed_dim, 3 * embed_dim, bias=bias)
+        self.qkv_proj = nn.Linear(embed_dim, 3 * embed_dim, bias=config.ma_bias)
         self.o_proj = nn.Linear(embed_dim, embed_dim)
 
         #self.dropout = nn.Dropout(dropout)
-        #self.register_buffer('mask', torch.tril(torch.ones(sequence_len, sequence_len)))
+        #self.register_buffer('mask', torch.tril(torch.ones(max_sequence_len, max_sequence_len)))
 
     def scaled_dot_product(self, q, k, v, mask):
         head_dim = q.size()[-1]

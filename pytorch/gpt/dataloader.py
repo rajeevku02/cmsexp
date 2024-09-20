@@ -1,13 +1,12 @@
 from torch.utils.data import DataLoader, Dataset
-import tiktoken
 import torch
+from config import config
 
 class GPTDataset(Dataset):
     def __init__(self, text, sequence_len, stride):
-        tokenizer = tiktoken.get_encoding('gpt2')
         self.input_ids = []
         self.target_ids = []
-        token_ids = tokenizer.encode(text, allowed_special={"<|endoftext|>"})
+        token_ids = config.tokenizer.encode(text, allowed_special={"<|endoftext|>"})
         for i in range(0, len(token_ids) - sequence_len, stride):
             inp = token_ids[i: i+sequence_len]
             target = token_ids[i+1: i+sequence_len+1]

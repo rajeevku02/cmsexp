@@ -7,7 +7,6 @@ class MultiheadAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
         sequence_len = config.sequence_len
-        input_dim = config.input_dim
         embed_dim = config.embed_dim
         n_heads = config.n_heads
         #dropout = config['dropout']
@@ -18,7 +17,7 @@ class MultiheadAttention(nn.Module):
         self.n_heads = n_heads
         self.head_dim = embed_dim // n_heads
 
-        self.qkv_proj = nn.Linear(input_dim, 3 * embed_dim, bias=bias)
+        self.qkv_proj = nn.Linear(embed_dim, 3 * embed_dim, bias=bias)
         self.o_proj = nn.Linear(embed_dim, embed_dim)
 
         #self.dropout = nn.Dropout(dropout)

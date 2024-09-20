@@ -29,7 +29,7 @@ class Block(nn.Module):
 
     def forward(self, x):
         x = x + self.dropout(self.ma(self.ln1(x)))
-        x = x+ self.dropout2(self.fc(self.ln2(x)))
+        x = x + self.dropout2(self.fc(self.ln2(x)))
         return x
 
 class GPT(nn.Module):

@@ -6,12 +6,12 @@ import math
 class MultiheadAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
-        sequence_len = config['sequence_len']
-        input_dim = config['input_dim']
-        embed_dim = config['embed_dim']
-        n_heads = config['n_heads']
+        sequence_len = config.sequence_len
+        input_dim = config.input_dim
+        embed_dim = config.embed_dim
+        n_heads = config.n_heads
         #dropout = config['dropout']
-        bias = config['ma_bias']
+        bias = config.ma_bias
 
         assert embed_dim % n_heads == 0, 'embed_dim must be multiple of n_heads'
         self.embed_dim = embed_dim

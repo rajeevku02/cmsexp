@@ -17,8 +17,8 @@ class Feedforward(nn.Module):
 class Block(nn.Module):
     def __init__(self, config):
         super().__init__()
-        embed_dim = config['embed_dim']
-        dropout = config['dropout']
+        embed_dim = config.embed_dim
+        dropout = config.dropout
 
         self.ln1 = nn.LayerNorm()
         self.ma = MultiheadAttention(config)
@@ -35,14 +35,14 @@ class Block(nn.Module):
 class GPT(nn.Module):
     def __init__(self, config):
         super().__init__()
-        n_vocab = config['n_vocab']
-        embed_dim = config['embed_dim']
-        n_layers = config['n_layers']
-        sequence_len = config['sequence_len']
+        n_vocab = config.n_vocab
+        embed_dim = config.embed_dim
+        n_layers = config.n_layers
+        sequence_len = config.sequence_len
         self.embeding = nn.Embedding(n_vocab, embed_dim)
         self.pos_embeding = nn.Embedding(sequence_len, embed_dim)
         self.ln = nn.LayerNorm()
-        self.dropout = nn.Dropout(config['dropout'])
+        self.dropout = nn.Dropout(config.dropout)
         self.transformers = nn.Sequential(*[Block(config) for _ in range(0, n_layers)])
         self.final = nn.Linear(embed_dim, n_vocab)
 
@@ -56,3 +56,6 @@ class GPT(nn.Module):
         x = self.ln(x)
         x = self.final(x)
         return x
+
+    def generate(self, start_text, max_words):
+        pass

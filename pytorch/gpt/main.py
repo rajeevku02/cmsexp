@@ -9,8 +9,8 @@ torch.manual_seed(427)
 
 def main():
     model = GPT(config)
-    generate(model, 'hello world', 40)
-    #train(model, config)
+    #generate(model, 'hello world', 40)
+    train(model, config)
 
 if __name__ == '__main__':
     main()

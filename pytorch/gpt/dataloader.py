@@ -19,12 +19,12 @@ class GPTDataset(Dataset):
     def __getitem__(self, idx):
         return self.input_ids[idx], self.target_ids[idx]
 
-def create_dataloader(text, batch_size=4, sequence_len=256, stride=128, shuffle=True, drop_last=True, num_workers=0):
-    dataset = GPTDataset(text, sequence_len, stride)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last, num_workers=num_workers)
+def create_dataloader(text, config, shuffle=True, drop_last=True, num_workers=0):
+    dataset = GPTDataset(text, config.max_sequence_len, config.stride)
+    dataloader = DataLoader(dataset, batch_size=config.batch_size, shuffle=shuffle, drop_last=drop_last, num_workers=num_workers)
     return dataloader
 
-def create_verdict_dataloader():
+def create_verdict_dataloader(config):
     with open('./data/the-verdict.txt') as file:
         text = file.read()
-    return create_dataloader(text)
+    return create_dataloader(text, config)

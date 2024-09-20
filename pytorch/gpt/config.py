@@ -2,6 +2,8 @@ import tiktoken
 
 class Config:
     def __init__(self):
+        self.lr = 0.001
+        self.n_epoch = 2
         self.max_sequence_len = 512
         self.stride = 128
         self.batch_size = 8

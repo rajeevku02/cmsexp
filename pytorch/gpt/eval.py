@@ -1,7 +1,7 @@
 import torch
 
 def generate(model, start_text, max_words):
-    tokens = torch.tensor([model.config.tokenizer.encode(start_text)])
+    tokens = torch.tensor([model.config.tokenizer.encode(start_text)]).to(model.config.device)
     count = 0
     while count < max_words:
         tks = tokens[:, -model.config.max_sequence_len:]

@@ -44,7 +44,7 @@ class GPT(nn.Module):
     def forward(self, x):
         B, T = x.shape
         embed = self.embeding(x)
-        pos = self.pos_embeding(torch.arange(T))
+        pos = self.pos_embeding(torch.arange(T).to(self.config.device))
         x = embed + pos
         x = self.dropout(x)
         x = self.transformers(x)

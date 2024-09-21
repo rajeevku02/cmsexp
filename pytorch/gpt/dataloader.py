@@ -10,8 +10,8 @@ class GPTDataset(Dataset):
         for i in range(0, len(token_ids) - sequence_len, stride):
             inp = token_ids[i: i+sequence_len]
             target = token_ids[i+1: i+sequence_len+1]
-            self.input_ids.append(torch.tensor(inp))
-            self.target_ids.append(torch.tensor(target))
+            self.input_ids.append(torch.tensor(inp).to(config.device))
+            self.target_ids.append(torch.tensor(target).to(config.device))
 
     def __len__(self):
         return len(self.input_ids)

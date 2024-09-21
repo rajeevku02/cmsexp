@@ -11,7 +11,11 @@ def train(model, config):
         count = 0
         for d, l in loader:
             optimizer.zero_grad()
-            with torch.autocast(device_type=model.config.device, dtype=torch.bfloat16):
+            if model.config.device == 'cuda':
+                with torch.autocast(device_type=model.config.device, dtype=torch.bfloat16):
+                    output = model(d)
+                    loss = torch.nn.functional.cross_entropy(output.view(-1, output.shape[-1]), l.flatten())
+            else:
                 output = model(d)
                 loss = torch.nn.functional.cross_entropy(output.view(-1, output.shape[-1]), l.flatten())
             loss.backward()

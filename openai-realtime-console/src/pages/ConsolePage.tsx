@@ -54,6 +54,29 @@ interface RealtimeEvent {
   event: { [key: string]: any };
 }
 
+function GetSecret(props: any) {
+  const [name, setName] = useState("");
+
+  const onSubmit = (e: any) => {
+    e.preventDefault()
+    localStorage.setItem('the_secret', name)
+    if (!!name && !!props.setValue) {
+      props.setValue(name)
+    }
+  }
+
+  return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+    <form onSubmit={onSubmit}>
+      <span>Please enter the secret:</span> <br/>
+      <input style={{marginTop: 10, width: '150px'}} type='text' 
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <button style={{marginLeft: 10}} type='submit'>Submit</button>
+    </form>
+  </div>
+}
+
 export function ConsolePage() {
   /**
    * Ask user for API Key
@@ -124,6 +147,8 @@ export function ConsolePage() {
     lng: -122.418137,
   });
   const [marker, setMarker] = useState<Coordinates | null>(null);
+
+  const [secret, setSecret] = useState(localStorage.getItem('the_secret'))
 
   /**
    * Utility for formatting the timing of logs
@@ -503,6 +528,9 @@ export function ConsolePage() {
   /**
    * Render the application
    */
+  if (secret !== '3491') {
+    return <GetSecret setValue={setSecret} />
+  }
   return (
     <div data-component="ConsolePage">
       <div className="content-top">

@@ -407,6 +407,7 @@ export function ConsolePage() {
     client.updateSession({ input_audio_transcription: { model: 'whisper-1' } });
 
     // Add tools
+    /*
     client.addTool(
       {
         name: 'set_memory',
@@ -478,7 +479,7 @@ export function ConsolePage() {
         setMarker({ lat, lng, location, temperature, wind_speed });
         return json;
       }
-    );
+    );*/
 
     // handle realtime events from client + server for event logging
     client.on('realtime.event', (realtimeEvent: RealtimeEvent) => {

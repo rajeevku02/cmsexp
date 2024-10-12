@@ -535,8 +535,8 @@ export function ConsolePage() {
     <div data-component="ConsolePage">
       <div className="content-top">
         <div className="content-title">
-          <img src="/openai-logomark.svg" />
-          <span>realtime console</span>
+          {/*<img src="/openai-logomark.svg" />*/}
+          <span style={{fontSize: 30}}>Welcome To Dr. Shaurya's Clinic</span>
         </div>
         <div className="content-api-key">
           {!LOCAL_RELAY_SERVER_URL && (
@@ -549,6 +549,17 @@ export function ConsolePage() {
             />
           )}
         </div>
+      </div>
+      <div>
+        <hr/>
+        <span>How to book appointment</span>
+        <ul>
+          <li>Click the Connect button on the right</li>
+          <li><strong>Push To Talk</strong> will appear</li>
+          <li>Keep pressing the <strong>Push To Talk</strong> button when you are speaking</li>
+          <li>Wait for the greeting voice message</li>
+          <li>At the end click the <strong>Disconnect</strong> button</li>
+        </ul>
       </div>
       <div className="content-main">
         <div className="content-logs">

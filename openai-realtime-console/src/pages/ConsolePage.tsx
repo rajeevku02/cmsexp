@@ -555,9 +555,9 @@ export function ConsolePage() {
         <span>How to book appointment</span>
         <ul>
           <li>Click the Connect button on the right</li>
+          <li>Wait for the greeting voice message</li>
           <li><strong>Push To Talk</strong> will appear</li>
           <li>Keep pressing the <strong>Push To Talk</strong> button when you are speaking</li>
-          <li>Wait for the greeting voice message</li>
           <li>At the end click the <strong>Disconnect</strong> button</li>
         </ul>
       </div>

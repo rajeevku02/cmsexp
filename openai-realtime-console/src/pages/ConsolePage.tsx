@@ -405,6 +405,11 @@ export function ConsolePage() {
     client.updateSession({ instructions: instructions });
     // Set transcription, otherwise we don't get user transcriptions back
     client.updateSession({ input_audio_transcription: { model: 'whisper-1' } });
+    
+    setTimeout(() => {
+      client.updateSession({turn_detection: { type: 'server_vad' }})
+      setCanPushToTalk(false)
+    }, 1);
 
     // Add tools
     /*
@@ -557,9 +562,11 @@ export function ConsolePage() {
         <ul>
           <li>Click the Connect button on the right</li>
           <li>Wait for the greeting voice message</li>
-          <li><strong>Push To Talk</strong> will appear</li>
+          <li>Start conversation</li>
+          <li>Once you are done, click <strong>Disconnect</strong> button</li>
+          {/*<li><strong>Push To Talk</strong> will appear</li>
           <li>Keep pressing the <strong>Push To Talk</strong> button when you are speaking</li>
-          <li>At the end click the <strong>Disconnect</strong> button</li>
+          <li>At the end click the <strong>Disconnect</strong> button</li> */}
         </ul>
       </div>
       <div className="content-main">

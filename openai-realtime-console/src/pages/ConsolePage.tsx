@@ -411,6 +411,39 @@ export function ConsolePage() {
       setCanPushToTalk(false)
     }, 1);
 
+    client.addTool(
+      {
+        name: 'book_appointment',
+        description: 'Book appointment with the doctor.',
+        parameters: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              description:
+                'Name of the patient',
+            },
+            phone: {
+              type: 'string',
+              description: 'Phone number of the patient',
+            },
+            date: {
+              type: 'string',
+              description: 'Date of the appointment in the format DD/MM for example 2/3 means 3rd Feb'
+            },
+            time: {
+              type: 'string',
+              description: 'Time of the appointment' 
+            }
+          },
+          required: ['name', 'phone', 'date', 'time'],
+        }
+      },
+      async ({ name, phone, date, time }: {[name:string]: any}) => {
+        console.log(name, phone, date, time)
+        return { ok: true }
+      }
+    )
     // Add tools
     /*
     client.addTool(
